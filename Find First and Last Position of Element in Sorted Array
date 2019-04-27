@@ -1,0 +1,16 @@
+class Solution:
+    def searchfirst(self,nums,target):
+        start,end=0,len(nums)
+        while(start<end):
+            mid=(start+end)//2
+            if(nums[mid]>=target):
+                end=mid
+            else:
+                start=mid+1
+        return(start)
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        left=self.searchfirst(nums,target)
+        if(left==len(nums) or nums[left]!=target):
+            return([-1,-1])
+        right=self.searchfirst(nums,target+1)-1
+        return([left,right])
