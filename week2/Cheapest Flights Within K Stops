@@ -1,0 +1,35 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        from collections import deque
+        import heapq
+        queue,prices,canfly=deque(),dict(),dict()
+        
+        for ori,des,price in flights:
+            if(ori in canfly):
+                canfly[ori].append(des)
+            else:
+                canfly[ori]=[des]
+            prices[(ori,des)]=price
+        if(src not in canfly):
+            return(-1)
+        for des in canfly[src]:
+            queue.append((src,des,prices[(src,des)]))
+        minfare,minfares=float('Inf'),[float('Inf')]*n
+        while(len(queue)>0 and K>=0):
+            length=len(queue)
+            for i in range(length):
+                ori,des,price=queue.popleft()
+                if(des==dst):
+                    minfare=min(minfare,price)
+                else:
+                    if(des in canfly and minfares[des]>price):
+                        minfares[des]=price
+                        nexdess=canfly[des]
+                        for nexdes in nexdess:
+                            queue.append((des,nexdes,price+prices[(des,nexdes)]))
+            K-=1
+        if(minfare<float('Inf')):
+            return(minfare)
+        return(-1)
+            
+        
