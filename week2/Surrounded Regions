@@ -1,0 +1,33 @@
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        flag=[[False]*len(board[0]) for i in range(len(board))]
+        if(board is None or len(board)==0 or len(board[0])==0):
+            return
+        nrow,ncol=len(board),len(board[0])
+        def isvalid(x,y,nrow,ncol,board,flag):
+            return(x>=0 and x<nrow and y>=0 and y<ncol and board[x][y]=='O' and not flag[x][y])
+        def isbordline(x,y,nrow,ncol):
+            return(x==0 or x==nrow-1 or y==0 or y==ncol-1)
+        def bfs(x,y,nrow,ncol,board,flag):
+            movements=((0,1),(0,-1),(1,0),(-1,0))
+            for delta_x,delta_y in movements:
+                new_x,new_y=x+delta_x,y+delta_y
+                if(isvalid(new_x,new_y,nrow,ncol,board,flag)):
+                    flag[new_x][new_y]=True
+                    bfs(new_x,new_y,nrow,ncol,board,flag)            
+        for x in range(nrow):
+            for y in range(ncol):
+                if(isbordline(x,y,nrow,ncol)):
+                    if(board[x][y]=='O'):
+                        flag[x][y]=True
+                        bfs(x,y,nrow,ncol,board,flag)
+        for x in range(nrow):
+            for y in range(ncol):
+                if(flag[x][y]):
+                    board[x][y]='O'
+                else:
+                    board[x][y]='X'
+        return
