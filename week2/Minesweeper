@@ -1,0 +1,32 @@
+class Solution:
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        if(board is None or len(board)==0 or len(board[0])==0):
+            return(board)
+        def isvalid(x,y,nrow,ncol):
+            return(x>=0 and x<nrow and y>=0 and y<ncol)
+        from collections import deque
+        nrow,ncol=len(board),len(board[0])
+        directions=((0,1),(0,-1),(1,0),(-1,0),(1,1),(-1,-1),(1,-1),(-1,1))
+        queue=deque()
+        queue.append((click[0],click[1]))
+        while(queue):
+            x,y=queue.popleft()
+            if(board[x][y]=='M'):
+                board[x][y]='X'
+                return(board)
+            else:
+                count=0
+                for delta_x,delta_y in directions:
+                    new_x,new_y=x+delta_x,y+delta_y
+                    if(isvalid(new_x,new_y,nrow,ncol) and board[new_x][new_y]=='M'):
+                        count+=1
+                if(count>0):
+                    board[x][y]=str(count)
+                else:
+                    board[x][y]='B'
+                    for delta_x,delta_y in directions:
+                        new_x,new_y=x+delta_x,y+delta_y
+                        if(isvalid(new_x,new_y,nrow,ncol) and board[new_x][new_y]=='E'):
+                            board[new_x][new_y]='B'
+                            queue.append((new_x,new_y))
+        return(board)
