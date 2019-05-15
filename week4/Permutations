@@ -1,0 +1,13 @@
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        result=[]
+        nums.sort()
+        self.dfs(nums,result,[])
+        return(result)
+    
+    def dfs(self,nums,result,temp):
+        if(len(nums)==0):
+            result.append(temp)
+            return
+        for i in range(len(nums)):
+            self.dfs(nums[:i]+nums[i+1:],result,temp+[nums[i]])
