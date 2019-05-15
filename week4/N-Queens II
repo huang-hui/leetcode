@@ -1,0 +1,19 @@
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        result=[]
+        self.dfs([-1]*n,result,0)
+        return(len(result))
+    def dfs(self,nums,result,idx):
+        if(idx==len(nums)):
+            result.append(nums)
+            return
+        for i in range(len(nums)):
+            nums[idx]=i
+            if(self.isvalid(idx,nums)):
+                self.dfs(nums,result,idx+1)
+    def isvalid(self,idx,nums):
+        for i in range(idx):
+            if(nums[i]==nums[idx] or abs(nums[i]-nums[idx])==(idx-i)):
+                return(False)
+        return(True)
+            
