@@ -1,0 +1,25 @@
+class Solution:
+    def merge2Lists(self,left,right):
+        result=head=ListNode(0)
+        while(left and right):
+            if(left.val<right.val):
+                result.next=left
+                left=left.next
+            else:
+                result.next=right
+                right=right.next
+            result=result.next
+        if(left):
+            result.next=left
+        if(right):
+            result.next=right
+        return(head.next)
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return
+        size=len(lists)
+        if(size==1):
+            return(lists[0])
+        elif(size==2):
+            return(self.merge2Lists(lists[0],lists[1]))
+        else:   return(self.merge2Lists(self.mergeKLists(lists[:size//2]),self.mergeKLists(lists[size//2:])))
