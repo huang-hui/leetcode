@@ -1,0 +1,14 @@
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums=[1]+nums+[1]
+        length=len(nums)
+        dp=[[0]*length for _ in range(length)]
+        def calculate(i,j):
+            if(dp[i][j]):
+                return(dp[i][j])
+            coin=0
+            for k in range(i+1,j):
+                coin=max(coin,calculate(i,k)+calculate(k,j)+nums[i]*nums[k]*nums[j])
+            dp[i][j]=coin
+            return(coin)
+        return(calculate(0,length-1))
