@@ -1,0 +1,17 @@
+class Solution:
+    def diffWaysToCompute(self, input: str) -> List[int]:
+        res=[]
+        for i,val in enumerate(input):
+            if val in ['+','-','*']:
+                for left in self.diffWaysToCompute(input[:i]):
+                    for right in self.diffWaysToCompute(input[i+1:]):
+                        if(val=='+'):
+                            res.append(left+right)
+                        if(val=='-'):
+                            res.append(left-right)
+                        if(val=='*'):
+                            res.append(left*right)
+        if(len(res)==0):
+            return([int(input)])
+        return(res)
+        
