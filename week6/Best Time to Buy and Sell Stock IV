@@ -1,0 +1,16 @@
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        if(k>len(prices)//2):
+            profit_ik0,profit_ik1=0,float('-Inf')
+            for price in prices:
+                profit_ik0_old=profit_ik0
+                profit_ik0=max(profit_ik0,profit_ik1+price)
+                profit_ik1=max(profit_ik1,profit_ik0_old-price)
+            return(profit_ik0)
+        else:
+            profit_ik0,profit_ik1=[0]*(k+1),[float('-Inf')]*(k+1)
+            for price in prices:
+                for i in range(k,0,-1):
+                    profit_ik0[i] = max(profit_ik0[i], profit_ik1[i] + price)
+                    profit_ik1[i] = max(profit_ik1[i], profit_ik0[i - 1] - price)
+            return(profit_ik0[k])
