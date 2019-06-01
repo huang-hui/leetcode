@@ -1,0 +1,8 @@
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        cumsum,minsofar,maxsum=0,0,float('-Inf')
+        for num in nums:
+            cumsum=cumsum+num
+            maxsum=max(cumsum-minsofar,maxsum)
+            minsofar=min(minsofar,cumsum)
+        return(maxsum)
