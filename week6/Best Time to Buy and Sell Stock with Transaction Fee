@@ -1,0 +1,8 @@
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        profit_ik0,profit_ik1=0,float('-Inf')
+        for price in prices:
+            profit_ik0_old=profit_ik0
+            profit_ik0=max(profit_ik0,profit_ik1+price)
+            profit_ik1=max(profit_ik1,profit_ik0-price-fee)
+        return(profit_ik0)
