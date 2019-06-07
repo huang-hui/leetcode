@@ -1,0 +1,29 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        from collections import deque
+        queue,pre_dict=deque(),dict()
+        indegree=[0]*numCourses
+        for course, pre in prerequisites:
+            indegree[course]+=1
+            if(pre in pre_dict):
+                pre_dict[pre].append(course)
+            else:
+                pre_dict[pre]=[course]
+        for i in range(numCourses):
+            if(indegree[i]==0):
+                queue.append(i)
+        result=[]
+        while(queue):
+            current=queue.popleft()
+            result.append(current)
+            if(current in pre_dict):
+                courses=pre_dict[current]
+                for course in courses:
+                    indegree[course]-=1
+                    if(indegree[course]==0):
+                        queue.append(course)
+        if(len(result)==numCourses):
+            return(result)
+        else:
+            return([])
+                    
