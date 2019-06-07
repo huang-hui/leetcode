@@ -1,0 +1,25 @@
+from collections import *
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        indegree,prereqdict=Counter(),dict()
+        for course,prereq in prerequisites:
+            indegree[course]+=1
+            if prereq not in prereqdict:
+                prereqdict[prereq]=[course]
+            else:
+                prereqdict[prereq].append(course)
+        queue=deque()
+        for i in range(numCourses):
+            if(indegree[i]==0):
+                queue.append(i)
+        finishedcourse=0
+        while(queue):
+            prereq=queue.pop()
+            finishedcourse+=1
+            courses=prereqdict.get(prereq)
+            if(courses):
+                for course in courses:
+                    indegree[course]-=1
+                    if(indegree[course]==0):
+                        queue.append(course)
+        return(finishedcourse==numCourses)
