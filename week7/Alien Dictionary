@@ -1,0 +1,25 @@
+from collections import *
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        chars=set(''.join(words))
+        degree={x:0 for x in chars}
+        graph=defaultdict(list)
+        for pair in zip(words,words[1:]):
+            for x, y in zip(*pair):
+                if(x!=y):
+                    graph[x].append(y)
+                    degree[y]+=1
+                    break
+        queue=list(filter(lambda x: degree[x]==0, degree.keys()))
+        result=''
+        while(queue):
+            current=queue.pop()
+            result+=current
+            for letter in graph[current]:
+                degree[letter]-=1
+                if(degree[letter]==0):
+                    queue.append(letter)
+        return(result*(len(result)==len(chars)))
+            
+        
+        
