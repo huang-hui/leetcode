@@ -1,0 +1,20 @@
+from collections import *
+class Solution:
+    def sequenceReconstruction(self, org: List[int], seqs: List[List[int]]) -> bool:
+        parents,children=defaultdict(set),defaultdict(set)
+        nodes=set()
+        for seq in seqs:
+            nodes=nodes.union(set(seq))
+            for x,y in zip(seq,seq[1:]):
+                parents[y].add(x)
+                children[x].add(y)
+        roots=list(filter(lambda x: len(parents[x])==0, nodes))
+        result=[]
+        while(len(roots)==1):
+            node=roots.pop()
+            result.append(node)
+            for nextnode in children[node]:
+                parents[nextnode].remove(node)
+                if(len(parents[nextnode])==0):
+                    roots.append(nextnode)
+        return(True if result==org and len(org)==len(nodes) else False)
